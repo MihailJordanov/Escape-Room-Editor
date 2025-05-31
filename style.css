@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  padding: 30px;
+  background: linear-gradient(135deg, #ffe0b2, #ffccbc, #f8bbd0);
+  background-size: 300% 300%;
+  animation: gradientShift 10s ease infinite;
+  color: #333;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+h1 {
+  text-align: center;
+  color: #5d4037;
+  margin-bottom: 30px;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+  color: #4e342e;
+}
+
+input[type="text"], select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus, select:focus {
+  border-color: #ff7043;
+  outline: none;
+  box-shadow: 0 0 8px #ffab91;
+}
+
+button {
+  background-color: #ff7043;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  margin-top: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #f4511e;
+}
+
+#fileInput {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+#downloadBtn, #addPuzzleBtn {
+  margin-top: 15px;
+  margin-right: 10px;
+}
+
+#puzzleContainer {
+  margin-top: 30px;
+}
+
+.puzzle {
+  background: #ffffffcc;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.puzzle:hover {
+  transform: scale(1.01);
+}
+
+.puzzle h3 {
+  color: #bf360c;
+  margin-bottom: 10px;
+}
+
+#languageSelector {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  display: flex;
+  gap: 8px;
+}
+
+.lang-btn {
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 4px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 30px;
+}
+
+.lang-btn img {
+  width: 32px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.lang-btn:hover {
+  transform: scale(1.1);
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 5px #ff7043, 0 0 10px #ff7043, 0 0 15px #f4511e;
+  }
+  50% {
+    box-shadow: 0 0 10px #ffab91, 0 0 20px #ff7043, 0 0 25px #f4511e;
+  }
+  100% {
+    box-shadow: 0 0 5px #ff7043, 0 0 10px #ff7043, 0 0 15px #f4511e;
+  }
+}
+
+.active-lang {
+  border-color: #ff7043;
+  animation: glowPulse 2s infinite ease-in-out;
+  transform: scale(1.1);
+}
+
+
+
+
+#langSelect {
+  padding: 5px 8px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#langSelect:hover {
+  box-shadow: 0 0 5px #aaa;
+}

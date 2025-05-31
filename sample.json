@@ -1,0 +1,50 @@
+{
+  "language": ["bg", "en"],
+  "puzzles": [
+    {
+      "id": 1,
+      "type": "digit",
+      "answer": ["1", "2", "3"],
+      "text": {
+        "en": "Enter the code found under the painting.",
+        "bg": "Въведи кода, намерен под картината."
+      }
+    },
+    {
+      "id": 2,
+      "type": "direction",
+      "answer": ["L", "L", "R"],
+      "text": {
+        "en": "Turn the safe dial in the correct direction.",
+        "bg": "Завърти копчето на сейфа в правилната посока."
+      }
+    },
+    {
+      "id": 3,
+      "type": "letter",
+      "answer": ["А", "Б", "В"],
+      "text": {
+        "en": "Use the Cyrillic letters carved into the desk.",
+        "bg": "Използвай буквите на кирилица, гравирани на бюрото."
+      }
+    },
+    {
+      "id": 4,
+      "type": "color",
+      "answer": ["R", "R", "W"],
+      "text": {
+        "en": "Press the buttons in the correct color order.",
+        "bg": "Натисни бутоните в правилната цветова последователност."
+      }
+    },
+    {
+      "id": 5,
+      "type": "shape",
+      "answer": ["T", "R", "C"],
+      "text": {
+        "en": "Match the shapes on the wall to unlock the chest.",
+        "bg": "Съобрази формите на стената, за да отключиш сандъка."
+      }
+    }
+  ]
+}
