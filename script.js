@@ -8,6 +8,9 @@ const labels = {
     langLabel: "Език на интерфейса:",
     download: "Изтегли редактирания JSON",
     add: "Добави нова загадка",
+    newJson: "🆕 Създай нов JSON файл",
+    chooseFile: "📁 Избери JSON файл",
+    noFile: "Няма избран файл",
     type: "Тип ключалка",
     textBg: "Текст (BG)",
     textEn: "Текст (EN)",
@@ -20,6 +23,9 @@ const labels = {
     langLabel: "Interface language:",
     download: "Download Edited JSON",
     add: "Add New Puzzle",
+    newJson: "🆕 Create New JSON File",
+    chooseFile: "📁 Choose JSON File",
+    noFile: "No file selected",
     type: "Lock type",
     textBg: "Text (BG)",
     textEn: "Text (EN)",
@@ -31,10 +37,10 @@ const labels = {
 
 const explanationMap = {
   number: "number (0-9), например: 4 или 421",
-  direction: "direction (L, R, U, D), например: L-R-R-D или LRRD",
+  direction: "direction (L, R, U, D), например: L-R-R-D",
   word: "word (A-Z или А-Я), например:HELLO",
-  color: "color (R=🔴, G=🟢, B=🔵, W=⚪, Y=🟡), напр.: R-R-G или RRG",
-  shape: "shape (T=🔺, R=⬛, C=⚪, S=⭐), напр.: T-S-R или TSR"
+  color: "color (R=🔴, G=🟢, B=🔵, W=⚪, Y=🟡), напр.: R-R-G",
+  shape: "shape (T=🔺, R=⬛, C=⚪, S=⭐), напр.: T-S-R"
 };
 
 
@@ -66,8 +72,8 @@ document.getElementById('addPuzzleBtn').addEventListener('click', () => {
 
   const newPuzzle = {
     id: Date.now(),
-    type: "digit",
-    answer: [],
+    type: "number",
+    answer: ["1"],
     text: {
       en: "New puzzle text",
       bg: "Текст на нова загадка"
@@ -112,11 +118,18 @@ function handleFile(event) {
       displayPuzzles(jsonData.puzzles);
       document.getElementById('downloadBtn').disabled = false;
       document.getElementById('addPuzzleBtn').style.display = 'block';
+      document.getElementById('downloadBtn').style.display = 'inline-block';
+
     } catch (err) {
-      alert("Невалиден JSON файл.");
+      Swal.fire({
+        icon: 'error',
+        title: 'Невалиден JSON',
+        text: 'Файлът не може да бъде зареден. Уверете се, че е валиден JSON.',
+      });
     }
   };
   reader.readAsText(file);
+  
 }
 
 
@@ -163,14 +176,17 @@ function displayPuzzles(puzzles) {
   });
 }
 
+
 function visualizeAnswer(puzzle) {
   const symbols = {
-    digit: (v) => v,
+    number: (v) => v,
+    digit: (v) => v, // за съвместимост
     direction: (v) => {
       const map = { L: "⬅️", R: "➡️", U: "⬆️", D: "⬇️" };
       return map[v] || v;
     },
     letter: (v) => v,
+    word: (v) => v, // също да показва просто текста
     color: (v) => {
       const map = { R: "🔴", G: "🟢", B: "🔵", W: "⚪", Y: "🟡" };
       return map[v] || v;
@@ -181,7 +197,10 @@ function visualizeAnswer(puzzle) {
     }
   };
 
-  return `<div class="answer-visual">${puzzle.answer.map(a => symbols[puzzle.type](a)).join(' ')}</div>`;
+  const visualize = symbols[puzzle.type];
+  if (!visualize) return `<div class="answer-visual">(${puzzle.answer.join(' ')})</div>`;
+
+  return `<div class="answer-visual">${puzzle.answer.map(a => visualize(a)).join(' ')}</div>`;
 }
 
 
@@ -192,30 +211,64 @@ function updateText(index, lang, value) {
 }
 
 function updateAnswer(index, value) {
-  const type = jsonData.puzzles[index].type;
+  console.log("updateAnswer called with value:", value);
 
-  // Ако има тирета — използваме ги, иначе режем по символ
-  let parts = value.includes('-') ? value.split('-') : value.split('');
+  try {
+    const type = jsonData.puzzles[index].type;
+    let parts;
 
-  const validators = {
-    number: (v) => /^\d+$/.test(v),                         // напр. "9", "23"
-    direction: (v) => ['L', 'R', 'U', 'D'].includes(v),     // ⬅️ ➡️ ⬆️ ⬇️
-    word: (v) => /^[A-Za-zА-Яа-я]+$/.test(v),               // дума на кирилица/латиница
-    color: (v) => ['R', 'G', 'B', 'W', 'Y'].includes(v),    // 🔴 🟢 🔵 ⚪ 🟡
-    shape: (v) => ['T', 'R', 'C', 'S'].includes(v)          // 🔺 ⬛ ⚪ ⭐
-  };
+    const validators = {
+      number: (v) => /^\d+$/.test(v),
+      direction: (v) => ['L', 'R', 'U', 'D'].includes(v),
+      word: (v) => /^[A-Za-zА-Яа-я]+$/.test(v),
+      color: (v) => ['R', 'G', 'B', 'W', 'Y'].includes(v),
+      shape: (v) => ['T', 'R', 'C', 'S'].includes(v)
+    };
 
-  const isValid = parts.every(p => validators[type](p.trim()));
+    if (type === "word") {
+      if (!validators.word(value.trim())) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Невалиден отговор',
+          text: `Допустими са само букви за тип "word".`,
+        });
+        return;
+      }
+      parts = [value.trim()];
+    } else {
+      parts = value.split('-').map(p => p.trim()).filter(p => p !== '');
 
-  if (!isValid) {
-    alert(`Невалиден отговор за тип "${type}"`);
-    return;
+      const isValid = parts.every(p => validators[type](p));
+      if (!isValid) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Невалиден отговор',
+          text: `Някои части не отговарят на типа "${type}".`,
+        });
+        return;
+      }
+    }
+
+    if (parts.length === 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Празен отговор',
+        text: 'Отговорът не може да е празен.',
+      });
+      return;
+    }
+
+    jsonData.puzzles[index].answer = parts;
+    displayPuzzles(jsonData.puzzles);
+  } catch (err) {
+    console.error("❌ Грешка в updateAnswer:", err);
+    Swal.fire({
+      icon: 'error',
+      title: 'Грешка',
+      text: 'Възникна неочаквана грешка при обработката на отговора.'
+    });
   }
-
-  jsonData.puzzles[index].answer = parts.map(p => p.trim());
-  displayPuzzles(jsonData.puzzles); // обновяване
 }
-
 
 function updateType(index, newType) {
   jsonData.puzzles[index].type = newType;
@@ -235,7 +288,7 @@ function updateType(index, newType) {
   if (answerDiv) {
     const puzzle = jsonData.puzzles[index];
     const symbols = {
-      digit: (v) => v,
+      number: (v) => v,
       direction: (v) => {
         const map = { L: "⬅️", R: "➡️", U: "⬆️", D: "⬇️" };
         return map[v] || v;
@@ -257,11 +310,40 @@ function updateType(index, newType) {
 
 
 function deletePuzzle(index) {
-  if (confirm("Сигурен ли си, че искаш да изтриеш тази загадка?")) {
-    jsonData.puzzles.splice(index, 1);
-    displayPuzzles(jsonData.puzzles);
+  if (jsonData.puzzles.length <= 1) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Минимум 1 загадка',
+      text: 'Не можеш да изтриеш последната загадка. JSON файлът трябва да съдържа поне една.',
+    });
+    return;
   }
+
+  Swal.fire({
+    title: 'Изтриване на загадка',
+    text: 'Сигурни ли сте, че искате да изтриете тази загадка?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Да, изтрий',
+    cancelButtonText: 'Отказ',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      jsonData.puzzles.splice(index, 1);
+      displayPuzzles(jsonData.puzzles);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Изтрита!',
+        text: 'Загадката беше премахната.',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
+  });
 }
+
+
 
 function updateInterfaceText() {
   const l = labels[currentLang];
@@ -269,15 +351,91 @@ function updateInterfaceText() {
   document.getElementById('title').textContent = l.title;
 
   const downloadBtn = document.getElementById('downloadBtn');
-  if (downloadBtn) downloadBtn.textContent = l.download;
+  if (downloadBtn) {
+    if (jsonData) {
+      downloadBtn.textContent = l.download;
+      downloadBtn.style.display = 'inline-block';
+    } else {
+      downloadBtn.style.display = 'none';
+    }
+  }
+
 
   const addBtn = document.getElementById('addPuzzleBtn');
   if (addBtn) addBtn.textContent = l.add;
+
+  const newJsonBtn = document.getElementById('newJsonBtn');
+  if (newJsonBtn) newJsonBtn.textContent = l.newJson;
+
+  const fileLabel = document.querySelector('.file-label');
+  if (fileLabel) fileLabel.textContent = l.chooseFile;
+
+  const fileNameSpan = document.getElementById('fileName');
+  if (fileNameSpan && !jsonData) fileNameSpan.textContent = l.noFile;
 }
 
 
-document.getElementById('langSelect').addEventListener('change', (e) => {
-  currentLang = e.target.value;
-  updateInterfaceText(); // ← добавено
+document.getElementById('newJsonBtn').addEventListener('click', () => {
+  const newPuzzle = {
+    id: Date.now(),
+    type: "number",   // <-- правилно
+    answer: ["1"],    // <-- правилен отговор
+    text: {
+      bg: "Текст на нова загадка",
+      en: "New puzzle text"
+    }
+  };
+
+  jsonData = {
+    puzzles: [newPuzzle]
+  };
+
   displayPuzzles(jsonData.puzzles);
+  document.getElementById("fileName").textContent = "Нов JSON документ";
+  document.getElementById("downloadBtn").disabled = false;
+  document.getElementById("addPuzzleBtn").style.display = 'block';
+  document.getElementById('downloadBtn').style.display = 'inline-block';
 });
+
+
+function loadJsonData(data) {
+  // Изчисти текущия контейнер
+  const container = document.getElementById('puzzleContainer');
+  container.innerHTML = '';
+
+  data.puzzles.forEach(puzzle => {
+    renderPuzzle(puzzle);
+  });
+
+  // Запазваме текущите данни (ако имате глобална променлива за това)
+  jsonData = data;
+}
+
+function removePuzzleFromView(index) {
+  Swal.fire({
+    title: 'Премахване на пъзел',
+    text: 'Сигурни ли сте, че искате да премахнете този пъзел? Промените няма да се запазят.',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Да, премахни',
+    cancelButtonText: 'Отказ',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const container = document.getElementById('puzzleContainer');
+      const puzzleDivs = container.querySelectorAll('.puzzle');
+      if (puzzleDivs[index]) {
+        puzzleDivs[index].remove();
+
+        Swal.fire({
+          icon: 'info',
+          title: 'Премахнато от изгледа',
+          text: 'Пъзелът беше премахнат само визуално.',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      }
+    }
+  });
+}
+

@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Escape Room JSON Editor</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -18,23 +19,20 @@
     </button>
     </div>
 
-
     <div class="file-controls">
+      <button id="newJsonBtn">🆕 Създай нов JSON файл</button>
       <div class="custom-file-input">
         <label for="fileInput" class="file-label">📁 Избери JSON файл</label>
         <span id="fileName" class="file-name">Няма избран файл</span>
         <input type="file" id="fileInput" accept=".json" hidden />
       </div>
-
-      <button id="downloadBtn" disabled>Изтегли редактирания JSON</button>
+      <button id="downloadBtn" style="display: none;">Изтегли редактирания JSON</button>
     </div>
-
 
     <div id="puzzleContainer"></div>
     <button id="addPuzzleBtn">Добави нова загадка</button>
 
-
-
   <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
