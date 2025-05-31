@@ -30,6 +30,8 @@ const labels = {
 };
 
 
+document.getElementById('addPuzzleBtn').style.display = 'none';
+
 document.querySelectorAll('.lang-btn').forEach(button => {
   button.addEventListener('click', () => {
     currentLang = button.dataset.lang;
@@ -51,6 +53,8 @@ function updateActiveLangButton() {
 
 
 document.getElementById('addPuzzleBtn').addEventListener('click', () => {
+  if (!jsonData || !Array.isArray(jsonData.puzzles)) return;
+
   const newPuzzle = {
     id: Date.now(),
     type: "digit",
@@ -60,9 +64,11 @@ document.getElementById('addPuzzleBtn').addEventListener('click', () => {
       bg: "Текст на нова загадка"
     }
   };
+
   jsonData.puzzles.push(newPuzzle);
   displayPuzzles(jsonData.puzzles);
 });
+
 
 
 document.getElementById('fileInput').addEventListener('change', handleFile);
@@ -85,17 +91,21 @@ function handleFile(event) {
   const reader = new FileReader();
   reader.onload = function(e) {
     try {
-        jsonData = JSON.parse(e.target.result);
-        displayPuzzles(jsonData.puzzles);
-        document.getElementById('downloadBtn').disabled = false;
-        document.getElementById('addPuzzleBtn').disabled = false; // ← ново
+      jsonData = JSON.parse(e.target.result);
+      if (!Array.isArray(jsonData.puzzles)) {
+        jsonData.puzzles = [];
+      }
+      displayPuzzles(jsonData.puzzles);
+      document.getElementById('downloadBtn').disabled = false;
+      document.getElementById('addPuzzleBtn').style.display = 'block';
     } catch (err) {
-        alert("Невалиден JSON файл.");
+      alert("Невалиден JSON файл.");
     }
   };
-
   reader.readAsText(file);
 }
+
+
 function displayPuzzles(puzzles) {
   const container = document.getElementById('puzzleContainer');
   container.innerHTML = '';
