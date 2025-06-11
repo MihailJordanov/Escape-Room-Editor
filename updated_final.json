@@ -1,0 +1,230 @@
+{
+  "language": [
+    "bg",
+    "en"
+  ],
+  "rooms": [
+    {
+        "name": "Класната стая",
+        "nameEn": "The Classroom",
+        "password": "12345",
+        "image": "assets/images/classroom.jpg",
+        "puzzles": [
+            {
+              "id": 4,
+              "type": "color",
+              "answer": [
+                "B",
+                "R",
+                "W"
+              ],
+              "text": {
+                "en": "The eyes of the past, the clothes of the present and the secret of the futute.",
+                "bg": "Очите на миналото, цветовете на настоящето и тайните на бъдещето."
+              },
+              "solved": false
+            },
+            {
+              "id": 5,
+              "type": "shape",
+              "answer": [
+                "R",
+                "T",
+                "C"
+              ],
+              "text": {
+                "en": "Once you enter, you walk straightforward then you spiral around and end up on the north side of the room where you spot a bloodstain.",
+                "bg": "Щом влезеш, вървиш право напред и след това обикаляш стаята и спираш в северната част на стаята, където забелязваш локва кръв."
+              },
+              "solved": false
+            }
+          ]
+    },
+    {
+      "name": "Стая 13",
+      "nameEn": "Room 13",
+      "password": "1234",
+      "image": "assets/images/room_13.jpeg",
+      "puzzles": [
+        {
+          "id": 1,
+          "type": "digit",
+          "answer": [
+            "1",
+            "2",
+            "3"
+          ],
+          "text": {
+            "en": "Enter the code found under the painting.",
+            "bg": "Въведи кода, намерен под картината."
+          },
+          "solved": false
+        },
+        {
+          "id": 2,
+          "type": "direction",
+          "answer": [
+            "L",
+            "L",
+            "R",
+            "R"
+          ],
+          "text": {
+            "en": "Where death rests upon the wood, then to the symbol of faith that watches over souls, next to the flame that dances in the darkness, and finally to the portal that reveals your truth.",
+            "bg": "Там където смъртта почива на дървото, след това към символа на вярата който бди над душите, после към пламъка който танцува в мрака, и накрая към портала който показва истината за теб."
+          },
+          "solved": false
+        },
+        {
+          "id": 3,
+          "type": "letter",
+          "answer": [
+            "А",
+            "Б",
+            "В"
+          ],
+          "text": {
+            "en": "The room is silent, the only sound present is the carving of woof, the the sound of a fallen knife.",
+            "bg": "В стаята е тихо, чува се само стържене по дърво, а после изпускане на нож."
+          },
+          "solved": false
+        },
+        {
+          "id": 4,
+          "type": "color",
+          "answer": [
+            "B",
+            "R",
+            "W"
+          ],
+          "text": {
+            "en": "The eyes of the past, the clothes of the present and the secret of the futute.",
+            "bg": "Очите на миналото, цветовете на настоящето и тайните на бъдещето."
+          },
+          "solved": false
+        },
+        {
+          "id": 5,
+          "type": "shape",
+          "answer": [
+            "R",
+            "T",
+            "C"
+          ],
+          "text": {
+            "en": "Once you enter, you walk straightforward then you spiral around and end up on the north side of the room where you spot a bloodstain.",
+            "bg": "Щом влезеш, вървиш право напред и след това обикаляш стаята и спираш в северната част на стаята, където забелязваш локва кръв."
+          },
+          "solved": false
+        }
+      ]
+    },
+    {
+      "name": "Лабораторията",
+      "nameEn": "The laboratory",
+      "password": "abcd",
+      "image": "assets/images/laboratory.jpg",
+      "puzzles": [
+        {
+          "id": 1,
+          "type": "digit",
+          "answer": [
+            "1",
+            "2",
+            "3"
+          ],
+          "text": {
+            "en": "The mad scientist found the dark secret of life.",
+            "bg": "Лудият учен разкри тъмната тайна на живота."
+          },
+          "solved": false
+        },
+        {
+          "id": 2,
+          "type": "direction",
+          "answer": [
+            "L",
+            "R",
+            "R",
+            "L"
+          ],
+          "text": {
+            "en": "Rusty hypodermic syringe, cracked glass vial, dust-covered electric scanner, worn surgical mask",
+            "bg": "Ръждясал инжекционен шприц, пукнат стъклен флакон, покрит с прах електрически скенер, износена хирургическа маска"
+          },
+          "solved": false
+        },
+        {
+          "id": 1749649831971,
+          "type": "direction",
+          "answer": [
+            "L",
+            "R",
+            "R"
+          ],
+          "text": {
+            "en": "In the rusty scalpel, the mad scientist can closely examine his bloody eye, which gazes into the future.",
+            "bg": "В ръждивия скалпел, лудият учен може да огледа хубаво кървавото си око, което гледа към бъдещето"
+          },
+          "solved": false
+        },
+        {
+          "id": 1749649835974,
+          "type": "digit",
+          "answer": [
+            "7"
+          ],
+          "text": {
+            "en": "In the corner stood a vessel filled with a thick greenish liquid. Dust still lay piled around the spot, yet the surface itself was clean. From within the liquid, red glowing eyes stared back at you—but there weren't just two.",
+            "bg": "В ъгъла се намираше съд с зеленикава гъста течност, прахта още седи струпана около мястото, но то самото е чисто, от тази течност те гледаха едни червени светещи очи, но не бяха само две"
+          },
+          "solved": false
+        },
+        {
+          "id": 3,
+          "type": "word",
+          "answer": [
+            "L",
+            "a",
+            "z",
+            "l",
+            "o"
+          ],
+          "text": {
+            "en": "Once upon a time, there lived a mad scientist who both worked and resided in what is now this abandoned laboratory. His name was the most spoken in this now-destroyed city—a city whose ruin was his doing.",
+            "bg": "Живял едно време един луд учен, който работеше и живееше в тази сега изоставена лаборатория, неговото име беше най-чуваното в този, сега унищожен град, за чиято разруха бе виновен той"
+          },
+          "solved": false
+        },
+        {
+          "id": 4,
+          "type": "color",
+          "answer": [
+            "R",
+            "W",
+            "B"
+          ],
+          "text": {
+            "en": "Blood was running down the walls, its source unknown—as if it were seeping from the walls themselves. But it was strange, somehow… it smelled foul and flowed in a perfect circle toward the dusty chair in the corner.",
+            "bg": "Кръв се стичаше по стените, не е ясно откъде идва, сякаш извира от стените, но беше някак странна, миришеше лошо и се стичаше в перфектен кръг до прашасалия стол в ъгъла"
+          },
+          "solved": false
+        },
+        {
+          "id": 5,
+          "type": "shape",
+          "answer": [
+            "C",
+            "R",
+            "C"
+          ],
+          "text": {
+            "en": "Whenever the mad scientist looked into the future, all he saw was a black sphere filled with thick, sticky liquid. It flowed through a small crack at the bottom of the sphere, across his desk, and eventually spilled into a channel that led to the basement of his laboratory. Down there… something could be heard breathing.",
+            "bg": "Когато погледнеше към бъдещето лудият учен виждаше само черна сфера, изпълнена с гъста лепкава течност, която течеше през малък процеп в дъното на сферата, по бюрото и накрая се изливаше в канала, който водеше към мазето на лабораторията му, там нещо се чуваше да диша..."
+          },
+          "solved": false
+        }
+      ]
+    }
+  ]
+}

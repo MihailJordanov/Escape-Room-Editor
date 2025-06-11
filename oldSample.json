@@ -1,0 +1,55 @@
+
+{
+    "puzzles": [
+        {
+          "id": 1,
+          "type": "direction",
+          "answer": ["L", "R", "R"],
+          "text": {
+            "en": "In the rusty scalpel, the mad scientist can closely examine his bloody eye, which gazes into the future.",
+            "bg": "В ръждивия скалпел, лудият учен може да огледа хубаво кървавото си око, което гледа към бъдещето"
+          },
+          "solved": false
+        },
+        {
+          "id": 2,
+          "type": "digit",
+          "answer": ["7"],
+          "text": {
+            "en": "In the corner stood a vessel filled with a thick greenish liquid. Dust still lay piled around the spot, yet the surface itself was clean. From within the liquid, red glowing eyes stared back at you—but there weren't just two.",
+            "bg": "В ъгъла се намираше съд с зеленикава гъста течност, прахта още седи струпана около мястото, но то самото е чисто, от тази течност те гледаха едни червени светещи очи, но не бяха само две"
+          },
+          "solved": false
+        },
+        {
+          "id": 3,
+          "type": "word",
+          "answer": ["L", "a", "z", "l", "o"],
+          "text": {
+            "en": "Once upon a time, there lived a mad scientist who both worked and resided in what is now this abandoned laboratory. His name was the most spoken in this now-destroyed city—a city whose ruin was his doing.",
+            "bg": "Живял едно време един луд учен, който работеше и живееше в тази сега изоставена лаборатория, неговото име беше най-чуваното в този, сега унищожен град, за чиято разруха бе виновен той"
+          },
+          "solved": false
+        },
+        {
+          "id": 4,
+          "type": "color",
+          "answer": ["R", "W", "B"],
+          "text": {
+            "en": "Blood was running down the walls, its source unknown—as if it were seeping from the walls themselves. But it was strange, somehow… it smelled foul and flowed in a perfect circle toward the dusty chair in the corner.",
+            "bg": "Кръв се стичаше по стените, не е ясно откъде идва, сякаш извира от стените, но беше някак странна, миришеше лошо и се стичаше в перфектен кръг до прашасалия стол в ъгъла"
+          },
+          "solved": false
+        },
+        {
+          "id": 5,
+          "type": "shape",
+          "answer": ["C", "R", "C"],
+          "text": {
+            "en": "Whenever the mad scientist looked into the future, all he saw was a black sphere filled with thick, sticky liquid. It flowed through a small crack at the bottom of the sphere, across his desk, and eventually spilled into a channel that led to the basement of his laboratory. Down there… something could be heard breathing.",
+            "bg": "Когато погледнеше към бъдещето лудият учен виждаше само черна сфера, изпълнена с гъста лепкава течност, която течеше през малък процеп в дъното на сферата, по бюрото и накрая се изливаше в канала, който водеше към мазето на лабораторията му, там нещо се чуваше да диша..."
+          },
+          "solved": false
+        }
+    ]
+}

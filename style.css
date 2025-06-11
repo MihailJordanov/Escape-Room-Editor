@@ -73,7 +73,7 @@ button:hover {
 }
 
 #addPuzzleBtn {
-  display: none; /* скрит по подразбиране */
+  display: none; 
   margin: 30px auto 0 auto;
   display: block;
   text-align: center;
@@ -193,7 +193,12 @@ button:hover {
 }
 
 #downloadBtn {
-  background-color: #ff7043; /* меко прасковено/сьомга */
+  position: fixed;
+  bottom: 20px;      
+  left: 50%;
+  transform: translateX(-50%);
+  
+  background-color: #ff7043; 
   color: white;
   border: none;
   cursor: pointer;
@@ -202,10 +207,11 @@ button:hover {
   font-weight: 600;
   transition: background-color 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 #downloadBtn:hover {
-  background-color: #f4511e; /* малко по-тъмна сьомга */
+  background-color: #f4511e; 
 }
 
 .custom-file-input {
@@ -217,7 +223,7 @@ button:hover {
 }
 
 .file-label {
-  background-color: #ff8a65; /* розово-оранжев */
+  background-color: #ff8a65;
   color: white;
   padding: 10px 22px;
   border-radius: 8px;
@@ -228,7 +234,7 @@ button:hover {
 }
 
 .file-label:hover {
-  background-color: #e64a19; /* наситено прасковено */
+  background-color: #e64a19; 
 }
 
 .file-name {
@@ -290,9 +296,6 @@ button:hover {
   transform: scale(1.1);
 }
 
-
-
-
 #langSelect {
   padding: 5px 8px;
   font-size: 18px;
@@ -305,4 +308,142 @@ button:hover {
 
 #langSelect:hover {
   box-shadow: 0 0 5px #aaa;
+}
+
+#modeSelector,
+#adminLogin,
+#roomSelector {
+  position: absolute;  
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background: #fff8f4; 
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.logout-btn,
+.back-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+
+  display: block;
+  margin: 0 auto;
+}
+
+.logout-btn:hover,
+.back-btn:hover {
+  background-color: #c82333;
+}
+
+.room-selection-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin: 30px 0;
+}
+
+.room-select-container {
+  flex: 0 0 auto;
+  min-width: 250px;
+}
+
+#roomList {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.room-image-container {
+  flex: 0 0 auto;
+}
+
+.room-image {
+  width: 400px;
+  height: 250px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+#puzzleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+#puzzleContainer {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+#addPuzzleBtn {
+  display: block;
+}
+
+.upload-controls {
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  max-width: 400px;
+  width: 90%;
+}
+.upload-controls button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background-color: #ff7043;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+.upload-controls button:hover {
+  background-color: #e64a19;
+}
+.upload-controls span {
+  font-style: italic;
+  color: #555;
+  max-width: 100%;
+  text-align: center;
+  word-break: break-word;
+}
+
+#loadNewFormatBtn,
+#finalJSONRooms {
+  width: 220px;              
+  padding: 12px 20px;
+  background-color: #f9f9f9; 
+  border: none;
+  border-radius: 10px;        
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#loadNewFormatBtn:hover,
+#finalJSONRooms:hover {
+  background-color: #f0f0f0;  
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }

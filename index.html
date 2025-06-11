@@ -8,31 +8,66 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1 id="title">Escape Room JSON Редактор</h1>
-
-   <div id="languageSelector">
-    <button class="lang-btn" data-lang="bg">
-        <img src="assets/flags/bg.png" alt="BG" />
-    </button>
-    <button class="lang-btn" data-lang="en">
-        <img src="assets/flags/gb.png" alt="EN" />
-    </button>
+    <div class="header">
+      <h1 id="title">Escape Room</h1>
+      <button id="logoutBtn" class="logout-btn" style="display: none;">🚪 Изход</button>
+      <button id="backBtn" class="back-btn" style="display: none;">⬅️ Назад</button>
     </div>
 
-    <div class="file-controls">
-      <button id="newJsonBtn">🆕 Създай нов JSON файл</button>
-      <div class="custom-file-input">
-        <label for="fileInput" class="file-label">📁 Избери JSON файл</label>
-        <span id="fileName" class="file-name">Няма избран файл</span>
-        <input type="file" id="fileInput" accept=".json" hidden />
+    <div id="modeSelector">
+      <h2 id="regime">Избери режим</h2>
+      <button id="playModeBtn">🎮 Влез като играч</button>
+      <button id="adminModeBtn">🛠️ Влез като администратор</button>
+    </div>
+
+   <div id="roomSelector" style="display: none;">
+    <h2 id="chooseRoom">Избери стая</h2>
+
+    <div class="room-selection-row">
+      <div class="room-select-container">
+        <select id="roomList"></select>
       </div>
-      <button id="downloadBtn" style="display: none;">Изтегли редактирания JSON</button>
+
+      <div class="room-image-container">
+        <img id="roomImage" class="room-image" src="" alt="Room Preview" style="display: none;" />
+      </div>
     </div>
+  
+    <input type="password" id="roomPasswordInput" placeholder="Въведи парола за стаята" />
+    <button id="enterRoomBtn">Вход</button>
+  </div>
 
-    <div id="puzzleContainer"></div>
-    <button id="addPuzzleBtn">Добави нова загадка</button>
+  <div id="adminLogin" style="display: none;">
+      <h2 id="adminPswd">Въведи администраторска парола</h2>
+      <input type="password" id="adminPasswordInput" />
+      <button id="adminEnterBtn">Вход като админ</button>
+  </div>
 
-  <script src="script.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <div id="languageSelector">
+      <button class="lang-btn" data-lang="bg">
+          <img src="assets/flags/bg.png" alt="BG" />
+      </button>
+      <button class="lang-btn" data-lang="en">
+          <img src="assets/flags/gb.png" alt="EN" />
+      </button>
+      </div>
+
+      <div class="file-controls" style="display: none;">
+        <button id="newJsonBtn" style="display: none;">🆕 Създай нов JSON файл</button>
+        <div class="custom-file-input">
+          <label for="oldFormatFileInput" class="file-label" id="oldFormatLabel">📁 Избери JSON файл</label>
+          <span id="fileName" class="file-name">Няма избран файл</span>
+          <input type="file" id="fileInput" accept=".json" hidden />
+        </div>
+        <button id="downloadBtn" style="display: none;">Изтегли редактирания JSON</button>
+      </div>
+
+      <div id="puzzleWrapper">
+        <div id="puzzleContainer"></div>
+        <button id="addPuzzleBtn">Добави нова загадка</button>
+      </div>
+
+      <script src="script.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

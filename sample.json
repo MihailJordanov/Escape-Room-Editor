@@ -1,50 +1,91 @@
 {
   "language": ["bg", "en"],
-  "puzzles": [
+  "rooms": [
     {
-      "id": 1,
-      "type": "digit",
-      "answer": ["1", "2", "3"],
-      "text": {
-        "en": "Enter the code found under the painting.",
-        "bg": "Въведи кода, намерен под картината."
-      }
+      "name": "Стая 13",
+      "nameEn": "Room 13",
+      "password": "1234",
+      "image": "assets/images/room_13.jpeg",
+      "puzzles": [
+        {
+          "id": 1,
+          "type": "digit",
+          "answer": ["1", "2", "3"],
+          "text": {
+            "en": "Enter the code found under the painting.",
+            "bg": "Въведи кода, намерен под картината."
+          },
+          "solved": false
+        },  
+        {
+          "id": 2,
+          "type": "direction",
+          "answer": ["L", "L", "R", "R"],
+          "text": {
+            "en": "Where death rests upon the wood, then to the symbol of faith that watches over souls, next to the flame that dances in the darkness, and finally to the portal that reveals your truth.",
+            "bg": "Там където смъртта почива на дървото, след това към символа на вярата който бди над душите, после към пламъка който танцува в мрака, и накрая към портала който показва истината за теб."
+          },
+          "solved": false
+        },
+        {
+          "id": 3,
+          "type": "letter",
+          "answer": ["А", "Б", "В"],
+          "text": {
+            "en": "The room is silent, the only sound present is the carving of woof, the the sound of a fallen knife.",
+            "bg": "В стаята е тихо, чува се само стържене по дърво, а после изпускане на нож."
+          },
+          "solved": false
+        },
+        {
+          "id": 4,
+          "type": "color",
+          "answer": ["B", "R", "W"],
+          "text": {
+            "en": "The eyes of the past, the clothes of the present and the secret of the futute.",
+            "bg": "Очите на миналото, цветовете на настоящето и тайните на бъдещето."
+          },
+          "solved": false
+        },
+        {
+          "id": 5,
+          "type": "shape",
+          "answer": ["R", "T", "C"],
+          "text": {
+            "en": "Once you enter, you walk straightforward then you spiral around and end up on the north side of the room where you spot a bloodstain.",
+            "bg": "Щом влезеш, вървиш право напред и след това обикаляш стаята и спираш в северната част на стаята, където забелязваш локва кръв."
+          },
+          "solved": false
+        }
+      ]
     },
     {
-      "id": 2,
-      "type": "direction",
-      "answer": ["L", "L", "R"],
-      "text": {
-        "en": "Turn the safe dial in the correct direction.",
-        "bg": "Завърти копчето на сейфа в правилната посока."
-      }
-    },
-    {
-      "id": 3,
-      "type": "letter",
-      "answer": ["А", "Б", "В"],
-      "text": {
-        "en": "Use the Cyrillic letters carved into the desk.",
-        "bg": "Използвай буквите на кирилица, гравирани на бюрото."
-      }
-    },
-    {
-      "id": 4,
-      "type": "color",
-      "answer": ["R", "R", "W"],
-      "text": {
-        "en": "Press the buttons in the correct color order.",
-        "bg": "Натисни бутоните в правилната цветова последователност."
-      }
-    },
-    {
-      "id": 5,
-      "type": "shape",
-      "answer": ["T", "R", "C"],
-      "text": {
-        "en": "Match the shapes on the wall to unlock the chest.",
-        "bg": "Съобрази формите на стената, за да отключиш сандъка."
-      }
+      "name": "Лабораторията",
+      "nameEn": "The laboratory",
+      "password": "abcd",
+      "image": "assets/images/laboratory.jpg",
+      "puzzles": [
+        {
+          "id": 1,
+          "type": "digit",
+          "answer": ["1", "2", "3"],
+          "text": {
+            "en": "The mad scientist found the dark secret of life.",
+            "bg": "Лудият учен разкри тъмната тайна на живота."
+          },
+          "solved": false
+        },
+        {
+          "id": 2,
+          "type": "direction",
+          "answer": ["L", "R", "R", "L"],
+          "text": {
+            "en": "Rusty hypodermic syringe, cracked glass vial, dust-covered electric scanner, worn surgical mask",
+            "bg": "Ръждясал инжекционен шприц, пукнат стъклен флакон, покрит с прах електрически скенер, износена хирургическа маска"
+          },
+          "solved": false
+        }
+      ]
     }
   ]
 }
