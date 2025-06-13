@@ -317,6 +317,7 @@ function updateAnswer(index, value) {
       shape: (v) => ['T', 'R', 'C', 'S'].includes(v)
     };
 
+
     if (type === "word") {
       if (!validators.word(value.trim())) {
         Swal.fire({
@@ -601,20 +602,54 @@ function removePuzzleFromView(index) {
 document.getElementById("playModeBtn").addEventListener("click", async () => {
   mode = "player";
 
-  if (!finalRoomsJSONData) {
-    try {
-      const response = await fetch("updated_final.json");
-      finalRoomsJSONData = await response.json();
-      console.log("✅ Заредих updated_final.json за играч");
-    } catch (err) {
-      console.error("❌ Не можа да се зареди updated_final.json:", err);
-      Swal.fire("Грешка", "Не можа да се зареди данните за стаите", "error");
-      return;
-    }
-  }
+  try {
+    const res = await fetch("get_rooms.php");
+    const rooms = await res.json();
 
-  showRoomSelector();
+    // Записваме данните, за да ги използваме при избор
+    jsonData = { rooms };
+
+    document.getElementById("modeSelector").style.display = "none";
+    document.getElementById("roomSelector").style.display = "block";
+    showBackButton();
+
+    const select = document.getElementById("roomList");
+    select.innerHTML = "";
+
+    // Добави опции
+    const defaultOption = document.createElement("option");
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    defaultOption.textContent = currentLang === "bg" ? "Избери стая" : "Choose a room";
+    select.appendChild(defaultOption);
+
+    rooms.forEach((room, index) => {
+      const option = document.createElement("option");
+      option.value = room.id;
+      option.textContent = currentLang === "bg" ? room.name_bg : room.name_en;
+      select.appendChild(option);
+    });
+
+    // Зареждане на изображение
+    document.getElementById("roomList").addEventListener("change", function () {
+      const selectedRoomId = parseInt(this.value);
+      const room = rooms.find(r => r.id == selectedRoomId);
+      const image = document.getElementById("roomImage");
+      if (room && room.image_url) {
+        image.src = room.image_url;
+        image.style.display = "block";
+      } else {
+        image.style.display = "none";
+      }
+    });
+
+    console.log("✅ Заредени стаи от базата в player mode:", rooms);
+  } catch (err) {
+    console.error("❌ Грешка при зареждане на стаи:", err);
+    Swal.fire("Грешка", "Не можа да се зареди списък със стаи", "error");
+  }
 });
+
 
 
 document.getElementById("adminModeBtn").addEventListener("click", () => {
@@ -679,10 +714,6 @@ function showAdminStartScreen() {
       <button id="customUploadBtn">${l.uploadJSON}</button>
       <span id="newFileName">${lastUploadedNewFileName ? lastUploadedNewFileName : l.noFile}</span>
       <button id="loadNewFormatBtn">${l.loadJSON}</button>
-      <button id="finalJSONRoomsAtt">${l.attachFinal}</button>
-      <input type="file" id="newFormatFinalFile" accept=".json" hidden/>
-      <span id="finalFile">${finalRoomsJSONName ? finalRoomsJSONName : l.noFile}</span>
-      <button id="finalJSONRooms">${l.uploadFinal}</button>
     </div>
     <div id="adminRoomsCardsContainer" class="rooms-cards-container"></div>
   `;
@@ -690,38 +721,6 @@ function showAdminStartScreen() {
   document.getElementById("customUploadBtn").addEventListener("click", () => {
     document.getElementById("newFormatFileInput").click();
   });
-
-  document.getElementById("finalJSONRoomsAtt").addEventListener("click", () => {
-    document.getElementById("newFormatFinalFile").click();
-  });
-
-  document.getElementById("finalJSONRooms").onclick = () => {
-    const finalFileInput = document.getElementById("newFormatFinalFile");
-
-    if (finalFileInput.files.length === 0) {
-      Swal.fire(`${l.invalidJsonText}`, "", "warning");
-      return;
-    }
-
-    finalRoomsJSONName = finalFileInput.files[0].name;
-    document.getElementById("finalFile").textContent = finalRoomsJSONName;
-
-    const file = finalFileInput.files[0];
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        const parsed = JSON.parse(e.target.result);
-        if (!parsed.rooms) {
-          Swal.fire(`${l.invalidJson}`, "", "error");
-          return;
-        }
-        finalRoomsJSONData = parsed;
-      } catch (err) {
-        Swal.fire(`${l.jsonError}`, "", "error");
-      }
-    };
-    reader.readAsText(file);
-  };
 
   document.getElementById("loadNewFormatBtn").onclick = () => {
     const fileInput = document.getElementById("newFormatFileInput");
@@ -865,16 +864,62 @@ function enterRoomEditingMode(roomIndex) {
   const newDownloadBtn = oldDownloadBtn.cloneNode(true);
   oldDownloadBtn.replaceWith(newDownloadBtn);
 
-  newDownloadBtn.addEventListener('click', () => {
-    const dataStr = JSON.stringify(jsonData, null, 2);
-    const blob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "edited_escape_room.json";
-    a.click();
-    URL.revokeObjectURL(url);
-  });
+
+newDownloadBtn.addEventListener('click', async () => {
+  // ⬇️ Изтегляне на локален JSON файл (оригинален)
+  const localDataStr = JSON.stringify(jsonData, null, 2);
+  const blob = new Blob([localDataStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "edited_escape_room.json";
+  a.click();
+  URL.revokeObjectURL(url);
+
+  // ⬆️ Подготовка за ъпдейт към базата
+  try {
+    const sanitizedData = JSON.parse(JSON.stringify(jsonData)); // deep copy
+
+    // normalize puzzle types
+    sanitizedData.rooms.forEach((room, i) => {
+      if (!room.id) {
+        room.id = i + 1;
+      }
+      if (room.puzzles && Array.isArray(room.puzzles)) {
+        room.puzzles.forEach(p => {
+          if (p.type === "digit") p.type = "number";
+          if (p.type === "letter") p.type = "word"; 
+          p.solved = p.solved === true;
+        });
+      }
+    });
+
+
+
+
+
+
+    const uploadDataStr = JSON.stringify(sanitizedData, null, 2);
+
+    console.log("➡️ Изпращам към update_from_json.php:");
+    console.log(uploadDataStr);
+    const res = await fetch("update_from_json.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: uploadDataStr
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      Swal.fire("✅ Успех", "Базата данни беше обновена", "success");
+    } else {
+      throw new Error(result.error || "Неуспешно обновяване");
+    }
+  } catch (err) {
+    console.error("❌ Грешка при запис в базата:", err);
+    Swal.fire("Грешка", "Базата не можа да бъде обновена", "error");
+  }
+});
 
   setupOldFormatUpload(room);
 
@@ -1001,33 +1046,63 @@ function showRoomSelector() {
   }
 }
 
-document.getElementById("enterRoomBtn").addEventListener("click", () => {
-  const l = labels[currentLang];
 
-  const roomIndex = document.getElementById("roomList").value;
+document.getElementById("enterRoomBtn").addEventListener("click", async () => {
+  const l = labels[currentLang];
+  const roomId = parseInt(document.getElementById("roomList").value);
   const pass = document.getElementById("roomPasswordInput").value;
 
-  const room = jsonData.rooms?.[roomIndex];
-
+  const room = jsonData.rooms.find(r => r.id === roomId);
   if (!room) {
     Swal.fire("Моля, избери стая", "", "warning");
     return;
   }
 
-  console.log("Избрана стая:", room.name);
-  console.log("Очаквана парола:", room.password);
-  console.log("Въведена парола:", pass);
+  const formData = new FormData();
+  formData.append("id", roomId);
+  formData.append("password", pass);
 
-  if (room.password !== pass) {
-    Swal.fire(`${l.wrongPassword}`, "", "error");
-    return;
+  try {
+    const response = await fetch("check_password.php", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) throw new Error("Сървърът върна грешка");
+
+    const result = await response.text();
+
+    if (result.trim() === "1") {
+      console.log("Парола е вярна. Зареждам пъзелите...");
+
+      const puzzlesRes = await fetch(`get_puzzles.php?room_id=${roomId}`);
+      const puzzles = await puzzlesRes.json();
+
+      const transformedPuzzles = puzzles.map(p => ({
+        ...p,
+        text: {
+          bg: p.text_bg,
+          en: p.text_en
+        },
+        answer: (p.answer || "").split("-")
+      }));
+
+      currentRoom = { ...room, puzzles: transformedPuzzles };
+      displayPlayerMode(transformedPuzzles);
+
+    } else {
+      Swal.fire(`${l.wrongPassword}`, "", "error");
+    }
+  } catch (err) {
+    console.error("Грешка при проверка на парола:", err);
+    Swal.fire("Грешка", "Проблем при връзка със сървъра", "error");
+    console.log("🎯 Изпращам към check_password.php:");
+    console.log("roomId:", roomId);
+    console.log("password:", pass);
+
   }
-
-  currentRoom = room;   
-  console.log("Текуща стая записана:", currentRoom);
-
-  displayPlayerMode(currentRoom.puzzles); 
 });
+
 
 function displayPlayerMode(puzzles) {
   
@@ -1207,3 +1282,21 @@ window.addEventListener("DOMContentLoaded", () => {
       console.warn("⚠️ Не можа да се зареди updated_final.json:", err);
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
